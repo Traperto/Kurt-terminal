@@ -16,9 +16,12 @@ rfid.on('ready', () => {
 });
 
 wss.on('connection', (ws: WebSocket) => {
+    console.log('client connected from', ws.url);
     rfid.on('tag', tag => {
-        console.log('tag:', tag.uid);
-        ws.send(tag);
+        if (tag.uid) {
+            console.log('tag:', tag.uid);
+            ws.send(JSON.stringify({ uid: tag.uid }));
+        }
     });
 
     ws.on('error', err => {
