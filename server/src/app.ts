@@ -13,16 +13,21 @@ const rfid = new pn532.PN532(serialPort, { pollInterval: 5000 });
 
 rfid.on('ready', () => {
     console.log('Listening for a tag scan...');
+
+    rfid.on('tag', tag => {
+        console.log('tag:', tag.uid);
+
+        wss.clients.forEach(client => {
+            if (client.readyState === client.OPEN) {
+                console.log(`send ${tag.uid} to clients`);
+                client.send(JSON.stringify({ uid: tag.uid }));
+            }
+        });
+    });
 });
 
 wss.on('connection', (ws: WebSocket) => {
-    console.log('client connected from', ws.url);
-    rfid.on('tag', tag => {
-        if (tag.uid) {
-            console.log('tag:', tag.uid);
-            ws.send(JSON.stringify({ uid: tag.uid }));
-        }
-    });
+    console.log('client connected');
 
     ws.on('error', err => {
         console.warn(`Client disconnected - reason: ${err}`);
