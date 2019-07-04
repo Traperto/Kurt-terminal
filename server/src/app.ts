@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-const serialPort = new SerialPort('/dev/ttyAMA0', { baudRate: 115200 });
+const serialPort = new SerialPort('/dev/ttyS0', { baudRate: 115200 });
 const rfid = new pn532.PN532(serialPort, { pollInterval: 5000 });
 
 rfid.on('ready', () => {
