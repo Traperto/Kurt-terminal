@@ -12,7 +12,7 @@ import { WindowRef } from './services/window-ref.service';
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements AfterContentInit, OnInit {
-    @ViewChild('stage') public stageElement: ElementRef;
+    @ViewChild('stage', { static: true }) public stageElement: ElementRef;
     public flickity: any;
 
     private subject: WebSocketSubject<any>;
@@ -20,7 +20,7 @@ export class AppComponent implements AfterContentInit, OnInit {
     constructor(private windowRef: WindowRef, private rfidService: RfidService, private dialog: MatDialog) {}
 
     public ngOnInit() {
-        this.subject = webSocket('ws://192.168.81.80:8080');
+        this.subject = webSocket('ws://localhost:8080');
         this.subject.subscribe(msg => {
             this.dialog.open(PaymentInfoDialog, {
                 data: {

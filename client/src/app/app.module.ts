@@ -1,3 +1,4 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material';
@@ -9,8 +10,17 @@ import { PaymentInfoDialog } from './payment-info-dialog/payment-info-dialog.com
 
 @NgModule({
     declarations: [AppComponent, PaymentInfoDialog],
-    imports: [BrowserModule, InlineSVGModule.forRoot(), HttpClientModule, MatDialogModule, BrowserAnimationsModule],
+    imports: [
+        BrowserModule,
+        InlineSVGModule.forRoot({
+            clientOnly: true,
+        }),
+        HttpClientModule,
+        MatDialogModule,
+        BrowserAnimationsModule,
+    ],
     bootstrap: [AppComponent],
     entryComponents: [PaymentInfoDialog],
+    providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
 })
 export class AppModule {}
