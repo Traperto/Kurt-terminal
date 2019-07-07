@@ -1,9 +1,10 @@
 import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import * as Flickity from 'flickity';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { PaymentInfoDialog } from './payment-info-dialog/payment-info-dialog.component';
-import { RfidService } from './services/rfid-service.service';
+import { interval } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { WebSocketSubject } from 'rxjs/webSocket';
+import { TagService } from './services/tag.service';
 import { WindowRef } from './services/window-ref.service';
 
 @Component({
@@ -14,13 +15,22 @@ import { WindowRef } from './services/window-ref.service';
 export class AppComponent implements AfterContentInit, OnInit {
     @ViewChild('stage', { static: true }) public stageElement: ElementRef;
     public flickity: any;
+    progressbarValue = 0;
+    curSec: number = 0;
 
     private subject: WebSocketSubject<any>;
 
-    constructor(private windowRef: WindowRef, private rfidService: RfidService, private dialog: MatDialog) {}
+    constructor(private windowRef: WindowRef, private tagService: TagService, private dialog: MatDialog) {}
 
     public ngOnInit() {
-        this.subject = webSocket('ws://localhost:8080');
+<<<<<<< Updated upstream
+        this.tagService.tags.pipe(map(response => JSON.parse(response))).subscribe(response => {
+            console.log(response);
+            if (response.status === 'start') {
+                this.startTimer(1);
+            }
+=======
+        this.subject = webSocket('ws://127.0.0.1:8080');
         this.subject.subscribe(msg => {
             this.dialog.open(PaymentInfoDialog, {
                 data: {
@@ -30,6 +40,7 @@ export class AppComponent implements AfterContentInit, OnInit {
                 },
             });
             console.log(msg);
+>>>>>>> Stashed changes
         });
     }
 
@@ -42,5 +53,19 @@ export class AppComponent implements AfterContentInit, OnInit {
             });
         }
         this.windowRef.dispatchEvent('resize');
+    }
+
+    startTimer(seconds: number) {
+        const time = seconds;
+        const timer$ = interval(1000);
+
+        const sub = timer$.subscribe(sec => {
+            this.progressbarValue = 100 - (sec * 100) / seconds;
+            this.curSec = sec;
+
+            if (this.curSec === seconds) {
+                sub.unsubscribe();
+            }
+        });
     }
 }

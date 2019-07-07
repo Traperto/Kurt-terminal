@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatProgressSpinnerModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InlineSVGModule } from 'ng-inline-svg';
@@ -18,6 +18,7 @@ import { PaymentInfoDialog } from './payment-info-dialog/payment-info-dialog.com
         HttpClientModule,
         MatDialogModule,
         BrowserAnimationsModule,
+        MatProgressSpinnerModule,
     ],
     bootstrap: [AppComponent],
     entryComponents: [PaymentInfoDialog],
