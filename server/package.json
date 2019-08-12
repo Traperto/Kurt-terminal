@@ -14,6 +14,7 @@
     "dependencies": {
         "express": "^4.16.4",
         "pn532": "^1.0.0",
+        "rxjs": "^6.5.2",
         "serialport": "^7.1.5",
         "typescript": "^3.3.3333",
         "ws": "^6.1.4"

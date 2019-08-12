@@ -1,22 +1,117 @@
 .wrapper {
+    background: #343434;
     width: 100%;
     height: 100vh;
     position: relative;
 
+    .progress-spinner {
+        display: none;
+        top: calc(50% - 50px);
+        position: absolute;
+        margin: auto;
+        left: 0;
+        right: 0;
+        z-index: 1;
+
+        &.active {
+            display: block;
+        }
+    }
+
     .stage {
         position: relative;
         top: 50%;
+        height: 400px;
         transform: translateY(-50%);
 
-        .drink {
+        &.inactive {
+            pointer-events: none;
+            .card {
+                filter: blur(3px);
+
+                &::after {
+                    content: ' ';
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: white;
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        .carousel-cell {
+            height: 350px;
+            top: 30px;
             width: 100%;
-            height: auto;
-            height: 300px;
-            padding: 0 10%;
+
+            .card {
+                position: relative;
+                margin: auto;
+                background: white;
+                box-shadow: 7px 8px 10px 0px black;
+                border-radius: 5px;
+                height: 320px;
+                width: 480px;
+                overflow: hidden;
+
+                hr {
+                    margin: 15px auto 12px;
+                    opacity: 0.5;
+                }
+
+                .drink {
+                    width: 100%;
+                    height: 240px;
+                    background: white;
+                    position: relative;
+                    padding: 0 20px;
+                    top: 15px;
+                    margin: auto;
+
+                    &-image {
+                        display: initial;
+                    }
+
+                    &-info {
+                        opacity: 0.5;
+                        display: flex;
+                        justify-content: space-evenly;
+                    }
+                }
+
+                .sold-out {
+                    .drink-image {
+                        filter: blur(2px);
+                        opacity: 0.2;
+                    }
+
+                    &-label {
+                        font-size: 28px;
+                        opacity: 0.9;
+                        color: white;
+                        top: 40%;
+                        left: 0px;
+                        right: 0px;
+                        position: absolute;
+                        height: 70px;
+                        line-height: 70px;
+                        background: #692727;
+                        text-align: center;
+                    }
+                }
+            }
         }
     }
 }
 
 ::ng-deep .flickity-page-dots {
-    // bottom: -50%;
+    bottom: 16px;
+
+    .dot {
+        background: white;
+        opacity: 0.5;
+    }
 }

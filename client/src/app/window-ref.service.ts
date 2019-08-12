@@ -12,7 +12,7 @@ export class WindowRef {
         return _window();
     }
 
-    public dispatchEvent(eventName: string) {
+    dispatchEvent(eventName: string) {
         if (this.isIE()) {
             const event = _window().document.createEvent('UIEvents');
             event.initUIEvent(eventName, true, false, window, 0);
@@ -22,14 +22,14 @@ export class WindowRef {
         }
     }
 
-    public isIE() {
+    isIE() {
         return (
             navigator.appName === 'Microsoft Internet Explorer' ||
             new RegExp('Trident/.*rv:([0-9]{1,}[.0-9]{0,})').exec(navigator.userAgent) != null
         );
     }
 
-    public isEdge() {
+    isEdge() {
         return !this.isIE() && !!this.nativeWindow.StyleMedia;
     }
 }

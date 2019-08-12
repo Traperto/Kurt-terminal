@@ -1,11 +1,30 @@
 <div class="wrapper">
-    <mat-progress-spinner class="example-margin" [mode]="'determinate'" [value]="progressbarValue">
+    <mat-progress-spinner
+        [class.active]="inProgress"
+        class="progress-spinner"
+        [mode]="'determinate'"
+        [value]="progressbarValue"
+    >
     </mat-progress-spinner>
-    <div class="stage" #stage>
-        <div class="drink" [inlineSVG]="'assets/images/drinks/coca-cola.svg'"></div>
-        <div class="drink" [inlineSVG]="'assets/images/drinks/fanta.svg'"></div>
-        <div class="drink" [inlineSVG]="'assets/images/drinks/sprite.svg'"></div>
-        <div class="drink" [inlineSVG]="'assets/images/drinks/club-mate.svg'"></div>
-        <div class="drink" [inlineSVG]="'assets/images/drinks/coca-cola-zero.svg'"></div>
+
+    <div class="stage" #stage [class.inactive]="inProgress">
+        <div
+            class="carousel-cell"
+            *ngFor="let drink of drinks"
+            [attr.data-drink-id]="drink.id"
+            (select)="onDrinkSelect($event)"
+        >
+            <div class="card">
+                <div class="drink" [class.sold-out]="drink.quantity === 0">
+                    <div class="drink-image" [inlineSVG]="drink | drinkImage"></div>
+                    <hr />
+                    <div class="drink-info">
+                        <div>Price: {{ drink.price }} €</div>
+                        <div>Stock: {{ drink.quantity }}</div>
+                    </div>
+                    <div *ngIf="drink.quantity === 0" class="sold-out-label">SOLD OUT</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
