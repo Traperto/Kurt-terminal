@@ -1,26 +1,41 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatProgressSpinnerModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { AppComponent } from './app.component';
-import { PaymentInfoDialog } from './payment-info-dialog/payment-info-dialog.component';
+import { AuthInterceptor } from './auth.interceptor';
+import { DrinkImagePipe } from './drinks/drink-image.pipe';
+import { DrinkService } from './drinks/drink.service';
+import { OrderDialog } from './order/order-dialog/order-dialog.component';
+import { OrderService } from './order/order.service';
 
 @NgModule({
-    declarations: [AppComponent, PaymentInfoDialog],
+    declarations: [AppComponent, OrderDialog, DrinkImagePipe],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         InlineSVGModule.forRoot({
             clientOnly: true,
         }),
         HttpClientModule,
         MatDialogModule,
-        BrowserAnimationsModule,
+        BrowserModule,
+        MatProgressSpinnerModule,
     ],
     bootstrap: [AppComponent],
-    entryComponents: [PaymentInfoDialog],
-    providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
+    entryComponents: [OrderDialog],
+    providers: [
+        { provide: APP_BASE_HREF, useValue: '/' },
+        DrinkService,
+        OrderService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+        },
+    ],
 })
-export class AppModule {}
+export class AppModule { }
