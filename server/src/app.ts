@@ -47,7 +47,6 @@ rfid.on('ready', () => {
                     count++;
 
                     checkFuther = true;
-                    console.log(newTag);
 
                     if (newTag.uid !== tag.uid) {
                         checkFuther = false;
@@ -75,7 +74,7 @@ wss.on('connection', (ws: WebSocket) => {
     });
 });
 
-server.listen(8080, '192.168.81.86', () => {
+server.listen(8080, 'localhost', () => {
     const address = server.address() as AddressInfo;
     console.log(`Server started on port ${address.address}:${address.port}`);
 });
